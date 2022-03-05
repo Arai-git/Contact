@@ -1,3 +1,18 @@
+<?php
+
+$db_username = 'root';
+$db_password = 'password';
+$pdo = new pdo(
+    'mysql:host=mysql; dbname=contactform; charset=utf8',
+    $db_username,
+    $db_password
+);
+$sql = 'SELECT * FROM contacts';
+$statement = $pdo->prepare($sql);
+$statement->execute();
+$contacts = $statement->fetchAll(PDO::FETCH_ASSOC);
+?>
+
 <!DOCTYPE html>
   <html>
     <head>
@@ -5,37 +20,13 @@
       <title>送信履歴</title>
     </head>
   <body>
-  <h1>送信履歴</h1>
-
-  <?php
-  //直リンクされた場合index.phpにリダイレクト
-  // if($_SERVER["REQUEST_METHOD"] != "POST"){
-  //   header("Location: index.php");
-  //   exit();
-  // }
-  $db_username = 'root';
-  $db_password = 'password';
-  $pdo = new pdo(
-      'mysql:host=mysql; dbname=contactform; charset=utf8',
-      $db_username,
-      $db_password
-  );
-  $sql = 'select * from contacts';
-  $stmt = $pdo->prepare($sql);
-  $stmt->execute();
-  $results = $stmt->fetchall();
-
-  foreach ($results as $result) {
-      echo $result['title'];
-      echo '<br>';
-      echo '<br>';
-      echo $result['content'];
-      echo '<br>';
-      echo '<br>';
-  }
-  ?>
-
-  <p><a href="index.php">戻る</p>
-  </form>
+    <h1>送信履歴</h1>
+    <div class="container">
+        <?php foreach ($contacts as $contact): ?>
+          <p><?php echo $contact['title'] . "\n"; ?></p>
+          <p><?php echo $contact['content'] . "\n"; ?></p>
+        <?php endforeach; ?>
+        <p><a href="index.php">戻る</p>
+    </div>
   </body>
 </html>

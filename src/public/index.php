@@ -3,29 +3,30 @@
     <head>
       <meta charset="UTF-8">
       <title>お問合せフォーム</title>
-      <style type="text/css">
-        p {
-          font-weight: bold;
-          font-size: 30px;
-        }
-      </style>
     </head>
   <body>
-    <p>お問い合わせフォーム</p>
-    <div>以下のフォームからお問合せください。</div>
+    <h1>お問い合わせフォーム</h1>
+    <h3>以下のフォームからお問合せください。</h3>
     <br>
-    <form action= "complete.php" method="post">
-          <div id="title">
-            タイトル（必須）　<input type="text" name="title" placeholder="タイトル" required>
-          </div>
-          <div id="email">
-            Email（必須）　<input type="text" name="email" placeholder="Emailアドレス" required>
-          </div>
-          <div id="contact">
-            お問い合わせ内容（必須）　<textarea name="content" placeholder="お問い合わせ内容（1000字まで）をお書きください" required></textarea>
-          </div>
-          <input type="submit" value="送信">
-        </div>
+    <form action="complete.php" method="post">
+    <table>
+      <tr>
+        <td>タイトル</td>
+        <td><input name="title" cols="30" rows="10" placeholder="タイトル"></textarea></td>
+      </tr>
+      <tr>
+        <td>Email</td>
+        <td><input name="email" cols="30" rows="10" placeholder="Emailアドレス"></textarea></td>
+      </tr>
+      <tr>
+        <td valign="top">お問い合わせ内容</td>
+        <td><textarea name="content" cols="30" rows="10" placeholder="お問い合わせ内容（1000文字まで）お書きください"></textarea></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><button type="submit" name="button">送信</button></td>
+      </tr>
+    </table>
     </form>
   </body>
 </html>

@@ -1,35 +1,78 @@
 <?php
-$db_username = 'root';
-$db_password = 'password';
-$pdo = new pdo(
-    'mysql:host=mysql; dbname=contactform; charset=utf8',
-    $db_username,
-    $db_password
+
+$errors = [];
+if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+    $errors[] = 'post送信になっていません！';
+}
+
+$title = filter_input(INPUT_POST, 'title');
+$email = filter_input(INPUT_POST, 'email');
+$content = filter_input(INPUT_POST, 'content');
+if (empty($title) || empty($email) || empty($content)) {
+    $errors[] =
+        '「タイトル」「Email」「お問い合わせ内容」のどれかが記入されていません！';
+}
+
+$dbUserName = 'root';
+$dbPassword = 'password';
+$pdo = new PDO(
+    'mysql:host=mysql; dbname=contactform; charset=utf8mb4',
+    $dbUserName,
+    $dbPassword
 );
 
-$title = $_POST['title'];
-$email = $_POST['email'];
-$content = $_POST['content'];
-
-// データの追加
 $sql =
-    'INSERT INTO contacts(title, email, content) VALUES(:title, :email, :content)';
-$stmt = $pdo->prepare($sql);
+    'INSERT INTO `contacts`(`id`, `title`, `email`, `content`) VALUES (0,:title,:email,:content)';
+$statement = $pdo->prepare($sql);
+$statement->bindValue(':title', $title, PDO::PARAM_STR);
+$statement->bindValue(':email', $email, PDO::PARAM_STR);
+$statement->bindValue(':content', $content, PDO::PARAM_STR);
+$statement->execute();
 
-// 挿入する値を配列に格納する
-$params = [':title' => $title, ':email' => $email, ':content' => $content];
-$stmt->execute($params);
+if (empty($errors)) {
+    $message = '送信完了！！！';
+    $links = '
+      <a href="./index.php">
+        <p>送信画面へ</p>
+      </a>
+      <a href="./history.php">
+        <p>送信履歴をみる</p>
+      </a>';
+} else {
+    $links = '
+        <a href="./index.php">
+          <p>送信画面へ</p>
+        </a>
+      ';
+}
 ?>
 
 <!DOCTYPE html>
-  <html>
-    <head>
-      <meta charset="UTF-8">
-      <title>送信完了</title>
-    </head>
-    <body>
-      <h1>送信完了！！！</h1>
-      <p><a href="index.php">送信画面へ</p>
-      <p><a href="history.php">送信履歴をみる</p>
-    </body>
-  </html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>送信完了画面</title>
+</head>
+
+<body>
+  <div class="container">
+    <?php if (!empty($errors)): ?>
+      <?php foreach ($errors as $error): ?>
+        <p><?php echo $error . "\n"; ?></p>
+      <?php endforeach; ?>
+      <?php echo $links; ?>
+    <?php endif; ?>
+
+    <?php if (empty($errors)): ?>
+      <?php
+      echo '<h2>' . $message . '</h2>';
+      echo $links;
+      ?>
+    <?php endif; ?>
+  </div>
+</body>
+
+</html>

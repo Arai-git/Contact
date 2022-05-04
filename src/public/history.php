@@ -38,4 +38,3 @@
   <p><a href="index.php">戻る</p>
   </form>
   </body>
-</html>

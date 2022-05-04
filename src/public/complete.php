@@ -59,4 +59,3 @@ if (empty($errors)) {
       <p><a href="index.php">送信画面へ</p>
       <p><a href="history.php">送信履歴をみる</p>
     </body>
-  </html>

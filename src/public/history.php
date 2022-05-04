@@ -42,4 +42,3 @@ $contacts = $historyPresenter->createHistoryView();
         <a href = "./index.php">戻る</a>
     </div>
   </body>
-</html>

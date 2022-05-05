@@ -1,31 +1,32 @@
 <!DOCTYPE html>
-  <html>
-    <head>
-      <meta charset="UTF-8">
-      <title>お問合せフォーム</title>
-      <style type="text/css">
-        p {
-          font-weight: bold;
-          font-size: 30px;
-        }
-      </style>
-    </head>
-  <body>
-  <p>お問い合わせフォーム</p>
-  <div>以下のフォームからお問合せください。</div>
-  <br>
-  <form action= "complete.php" method="post">
-        <div id="title">
-          タイトル（必須）　<input type="text" name="title" placeholder="タイトル" required>
-        </div>
-        <div id="email">
-          Email（必須）　<input type="text" name="email" placeholder="Emailアドレス" required>
-        </div>
-        <div id="contact">
-          お問い合わせ内容（必須）　<textarea name="content" placeholder="お問い合わせ内容（1000字まで）をお書きください" required></textarea>
-        </div>
-        <input type="submit" value="送信">
-      </div>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>お問い合わせフォーム</title>
+</head>
+<body>
+<div class="container">
+<h2>お問い合わせフォーム</h2>
+  <p>以下のフォームからお問い合わせください。</p>
+  <form action="./complete.php" method="post">
+    <table>
+      <tr>
+        <td>タイトル（必須）</td>
+        <td><input name="title" colos="30" rows="10" placeholder="タイトル" required></textarea></td>
+      </tr>
+      <tr>
+        <td>Email（必須）</td>
+        <td><input name="email" type="mail" colos="30" rows="10" placeholder="Emailアドレス" required></textarea></td>
+      </tr>
+      <tr>
+      <td valign="top">お問い合わせ内容（必須）</td>
+      <td><textarea name="content" cols="30" rows="10" placeholder="お問い合わせ内容（1000文字まで）をお書きください" required></textarea></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><button type="submit" name="button">送信</button></td>
+      </tr>
+    </table>
   </form>
-  </body>
+</body>
 </html>

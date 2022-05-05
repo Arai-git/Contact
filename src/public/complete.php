@@ -1,24 +1,51 @@
 <?php
-$db_username = 'root';
-$db_password = 'password';
-$pdo = new pdo(
-    'mysql:host=mysql; dbname=contactform; charset=utf8',
-    $db_username,
-    $db_password
+$errors = [];
+$title = filter_input(INPUT_POST, 'title');
+$email = filter_input(INPUT_POST, 'email');
+$content = filter_input(INPUT_POST, 'content');
+if (empty($title) || empty($email) || empty($content)) {
+    $errors[] =
+        '「タイトル」「Email」「お問い合わせ内容」のどれかが記入されていません！';
+}
+
+$dbUserName = 'root';
+$dbPassword = 'password';
+$pdo = new PDO(
+    'mysql:dbname=contactform;host=mysql;charset=utf8',
+    $dbUserName,
+    $dbPassword
 );
 
 $title = $_POST['title'];
 $email = $_POST['email'];
 $content = $_POST['content'];
 
-// データの追加
+//データの追加
 $sql =
-    'INSERT INTO contacts(title, email, content) VALUES(:title, :email, :content)';
+    'INSERT INTO `contacts` (`id`, `title`, `email`, `content`) VALUES (0, :title, :email, :content)';
 $stmt = $pdo->prepare($sql);
+$stmt->bindValue(':title', $title, PDO::PARAM_STR);
+$stmt->bindValue(':email', $email, PDO::PARAM_STR);
+$stmt->bindValue(':content', $content, PDO::PARAM_STR);
+$stmt->execute();
 
-// 挿入する値を配列に格納する
-$params = [':title' => $title, ':email' => $email, ':content' => $content];
-$stmt->execute($params);
+if (empty($errors)) {
+    $message = '送信完了！！！';
+    $links = '
+      <a href="./index.php">
+        <p>送信画面へ</p>
+      </a>
+      <a href="./history.php">
+        <p>送信履歴をみる</p>
+      </a>
+    ';
+} else {
+    $links = '
+        <a href="./index.php">
+          <p>送信画面へ</p>
+        </a>
+      ';
+}
 ?>
 
 <!DOCTYPE html>
